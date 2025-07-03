@@ -5,7 +5,7 @@ module branch_comp (
     input  logic [2:0] funct3,
     output logic br_taken
 );
-    always_comb begin
+    always @(*) begin
         br_taken = 1'b0;
         if (branch) begin
             case (funct3)

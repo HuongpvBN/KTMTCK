@@ -4,7 +4,7 @@ module imm_gen (
 );
     wire [6:0] opcode = inst[6:0];
 
-    always_comb begin
+    always @(*) begin
         case (opcode)
             7'b0000011, // I-type
             7'b0010011,

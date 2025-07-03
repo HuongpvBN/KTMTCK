@@ -1,8 +1,8 @@
-module riscv_single_cycle(
+module RISCV_Single_Cycle(
     input logic clk,
     input logic rst_n,
-    output logic [31:0] pc_out_top,
-    output logic [31:0] instruction_out_top
+    output logic [31:0] PC_out_top,
+    output logic [31:0] Instruction_out_top
 );
 
     // Program Counter
@@ -35,28 +35,28 @@ module riscv_single_cycle(
     // PC update
     always_ff @(posedge clk or negedge rst_n) begin
         if (!rst_n)
-            pc_out_top <= 32'b0;
+            PC_out_top <= 32'b0;
         else
-            pc_out_top <= pc_next;
+            PC_out_top <= pc_next;
     end
 
     // Instruction Memory (IMEM)
-    imem imem_inst(
-        .addr(pc_out_top),
-        .instruction(instruction_out_top)
+    imem IMEM_inst(
+        .addr(PC_out_top),
+        .instruction(Instruction_out_top)
     );
 
     // Instruction field decoding
-    assign opcode = instruction_out_top[6:0];
-    assign rd     = instruction_out_top[11:7];
-    assign funct3 = instruction_out_top[14:12];
-    assign rs1    = instruction_out_top[19:15];
-    assign rs2    = instruction_out_top[24:20];
-    assign funct7 = instruction_out_top[31:25];
+    assign opcode = Instruction_out_top[6:0];
+    assign rd     = Instruction_out_top[11:7];
+    assign funct3 = Instruction_out_top[14:12];
+    assign rs1    = Instruction_out_top[19:15];
+    assign rs2    = Instruction_out_top[24:20];
+    assign funct7 = Instruction_out_top[31:25];
 
     // Immediate generator
     imm_gen imm_gen_inst(
-        .inst(instruction_out_top),
+        .inst(Instruction_out_top),
         .imm_out(imm)
     );
 
@@ -86,7 +86,7 @@ module riscv_single_cycle(
     );
 
     // Data Memory (DMEM)
-    dmem dmem_inst(
+    dmem DMEM_inst(
         .clk(clk),
         .rst_n(rst_n),
         .mem_read(mem_read),
@@ -123,6 +123,6 @@ module riscv_single_cycle(
     );
 
     // Next PC logic
-    assign pc_next = (pc_sel) ? pc_out_top + imm : pc_out_top + 4;
+    assign pc_next = (pc_sel) ? PC_out_top + imm : PC_out_top + 4;
 
 endmodule

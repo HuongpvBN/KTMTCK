@@ -5,7 +5,7 @@ module alu (
     output logic [31:0] result,
     output logic zero
 );
-    always_comb begin
+    always @(*) begin
         case (alu_op)
             4'b0000: result = a & b;     // AND
             4'b0001: result = a | b;     // OR  

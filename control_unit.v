@@ -10,7 +10,7 @@ module control_unit (
     output logic mem_to_reg,
     output logic reg_write
 );
-    always_comb begin
+    always @(*) begin
         alu_src   = 2'b00;
         alu_op    = 4'b0000;
         branch    = 1'b0;

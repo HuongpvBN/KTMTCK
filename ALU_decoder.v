@@ -4,7 +4,7 @@ module alu_decoder(
     input        funct7_b5,
     output logic [3:0] alu_control
 );
-    always_comb begin
+    always @(*) begin
         alu_control = 4'b0010; // ADD mặc định (load/store)
         case (alu_op)
             2'b00: alu_control = 4'b0010; // ADD
