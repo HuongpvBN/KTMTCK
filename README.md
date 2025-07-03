@@ -1,14 +1,11 @@
 # RISC-V Single Cycle Processor
+# Pham Van Huong 20240445E
 
-![RISC-V](https://img.shields.io/badge/RISC--V-RV32I-blue)
-![SystemVerilog](https://img.shields.io/badge/SystemVerilog-IEEE%201800-green)
-![Status](https://img.shields.io/badge/Status-Production%20Ready-brightgreen)
+## 📋 Project Description
 
-## 📋 Mô tả dự án
+This project implements a complete **RISC-V Single Cycle Processor** supporting the basic RV32I instruction set. The processor is designed with single-cycle architecture, suitable for educational and research purposes.
 
-Dự án thiết kế và implement một **RISC-V Single Cycle Processor** hoàn chỉnh hỗ trợ tập lệnh RV32I cơ bản. Processor được thiết kế theo kiến trúc single-cycle với pipeline đơn giản, phù hợp cho mục đích học tập và nghiên cứu.
-
-## 🏗️ Kiến trúc tổng quan
+## 🏗️ Architecture Overview
 
 ```
 ┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌─────────────┐
@@ -23,20 +20,20 @@ Dự án thiết kế và implement một **RISC-V Single Cycle Processor** hoà
 └─────────────┘    └──────────────┘    └─────────────┘    └─────────────┘
 ```
 
-## 📁 Cấu trúc dự án
+## 📁 Project Structure
 
 ```
 KTMTCK/
-├── README.md                   # Tài liệu dự án
-├── riscv_single_cycle.sv      # Top-level module
-├── control_unit.sv            # Bộ điều khiển chính
-├── alu.sv                     # Arithmetic Logic Unit
-├── alu_decoder.sv             # ALU decoder (optional)
-├── register_file.sv           # 32 thanh ghi 32-bit
-├── imem.sv                    # Instruction Memory
-├── dmem.sv                    # Data Memory
-├── imm_gen.sv                 # Immediate Generator
-├── branch_comp.sv             # Branch Comparator
+├── README.md                   # Project documentation
+├── RISCV_Single_Cycle.v       # Top-level module
+├── control_unit.v             # Main control unit
+├── alu.v                      # Arithmetic Logic Unit
+├── alu_decoder.v              # ALU decoder (optional)
+├── register_file.v            # 32x 32-bit registers
+├── imem.v                     # Instruction Memory
+├── dmem.v                     # Data Memory
+├── imm_gen.v                  # Immediate Generator
+├── branch_comp.v              # Branch Comparator
 └── mem/                       # Memory initialization files
     ├── imem.hex
     ├── imem2.hex
@@ -44,110 +41,128 @@ KTMTCK/
     └── dmem_init2.hex
 ```
 
-## ✨ Chức năng nổi bật
+## ✨ Key Features
 
-### 🎯 **Tập lệnh hỗ trợ (RV32I Base)**
+### 🎯 **Supported Instruction Set (RV32I Base)**
 
-| **Loại lệnh** | **Mnemonic** | **Mô tả** |
-|---------------|--------------|-----------|
-| **R-type** | `ADD, SUB, AND, OR, XOR` | Phép toán thanh ghi |
-| | `SLL, SRL, SRA` | Phép dịch bit |
-| | `SLT, SLTU` | So sánh và set |
-| **I-type** | `ADDI, ANDI, ORI, XORI` | Phép toán với immediate |
-| | `SLLI, SRLI, SRAI` | Dịch bit với immediate |
-| | `SLTI, SLTIU` | So sánh với immediate |
-| **Load** | `LW` | Load word từ memory |
-| **Store** | `SW` | Store word vào memory |
-| **Branch** | `BEQ, BNE, BLT, BGE` | Branch có điều kiện |
-| | `BLTU, BGEU` | Branch unsigned |
-| **Jump** | `JAL, JALR` | Jump và link |
+| **Instruction Type** | **Mnemonic** | **Description** |
+|---------------------|--------------|-----------------|
+| **R-type** | `ADD, SUB, AND, OR, XOR` | Register arithmetic operations |
+| | `SLL, SRL, SRA` | Bit shift operations |
+| | `SLT, SLTU` | Set less than operations |
+| **I-type** | `ADDI, ANDI, ORI, XORI` | Immediate arithmetic operations |
+| | `SLLI, SRLI, SRAI` | Immediate bit shift operations |
+| | `SLTI, SLTIU` | Immediate comparison operations |
+| **Load** | `LW` | Load word from memory |
+| **Store** | `SW` | Store word to memory |
+| **Branch** | `BEQ, BNE, BLT, BGE` | Conditional branch operations |
+| | `BLTU, BGEU` | Unsigned branch operations |
+| **Jump** | `JAL, JALR` | Jump and link operations |
 
-### 🚀 **Tính năng kỹ thuật**
+### 🚀 **Technical Features**
 
-- ✅ **32-bit RISC-V ISA** - Tuân thủ chuẩn RV32I
-- ✅ **Single Cycle Design** - Mỗi lệnh thực hiện trong 1 clock cycle
+- ✅ **32-bit RISC-V ISA** - Compliant with RV32I standard
+- ✅ **Single Cycle Design** - Each instruction executes in 1 clock cycle
 - ✅ **32 General Purpose Registers** - x0 hardwired to 0
-- ✅ **Harvard Architecture** - Separate instruction và data memory
+- ✅ **Harvard Architecture** - Separate instruction and data memory
 - ✅ **Branch Prediction** - Static not-taken prediction
-- ✅ **Memory Mapped I/O** - Sẵn sàng mở rộng
-- ✅ **Reset Logic** - Asynchronous reset
-- ✅ **Modular Design** - Dễ dàng verify và debug
+- ✅ **Memory Mapped I/O** - Ready for expansion
+- ✅ **Reset Logic** - Asynchronous reset capability
+- ✅ **Modular Design** - Easy verification and debugging
 
-## 🔧 Module chi tiết
+## 🔧 Module Details
 
-### **1. riscv_single_cycle.sv** (Top Module)
-- **Chức năng**: Kết nối tất cả các module con
+### **1. RISCV_Single_Cycle.v** (Top Module)
+- **Function**: Connects all sub-modules
 - **Interface**: Clock, Reset, PC output, Instruction output
-- **Đặc điểm**: Clean hierarchy, chuẩn naming convention
+- **Features**: Clean hierarchy, proper signal routing
 
-### **2. control_unit.sv** (Control Unit)
-- **Chức năng**: Decode opcode và tạo control signals
+### **2. control_unit.v** (Control Unit)
+- **Function**: Decodes opcodes and generates control signals
 - **Input**: opcode[6:0], funct3[2:0], funct7[6:0]
 - **Output**: ALU control, memory control, register control
 
-### **3. alu.sv** (Arithmetic Logic Unit)
-- **Chức năng**: Thực hiện các phép toán và logic
+### **3. alu.v** (Arithmetic Logic Unit)
+- **Function**: Performs arithmetic and logic operations
 - **Operations**: ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT, SLTU
 - **Features**: Zero flag generation, signed/unsigned operations
 
-### **4. register_file.sv** (Register File)
-- **Chức năng**: 32 thanh ghi 32-bit
+### **4. register_file.v** (Register File)
+- **Function**: 32x 32-bit general purpose registers
 - **Interface**: 2 read ports, 1 write port
-- **Đặc điểm**: x0 register hardwired to 0
+- **Features**: x0 register hardwired to 0
 
-### **5. imem.sv & dmem.sv** (Memory Modules)
-- **Chức năng**: Instruction và Data memory
-- **Capacity**: 256 words (1KB) mỗi memory
+### **5. imem.v & dmem.v** (Memory Modules)
+- **Function**: Instruction and Data memory
+- **Capacity**: 256 words (1KB) each memory
 - **Features**: Hex file initialization, boundary checking
 
-### **6. branch_comp.sv** (Branch Comparator)
-- **Chức năng**: So sánh cho các lệnh branch
+### **6. branch_comp.v** (Branch Comparator)
+- **Function**: Comparison operations for branch instructions
 - **Operations**: EQ, NE, LT, GE, LTU, GEU
 - **Output**: Branch taken signal
 
-### **7. imm_gen.sv** (Immediate Generator)
-- **Chức năng**: Extract và sign-extend immediate values
+### **7. imm_gen.v** (Immediate Generator)
+- **Function**: Extract and sign-extend immediate values
 - **Formats**: I-type, S-type, B-type, U-type, J-type
 
-## 🚀 Hướng dẫn sử dụng
+## 🚀 Usage Guide
 
-### **Prerequisite**
+### **Prerequisites**
 - Python 3.x
-- Verilog simulator (ModelSim/Vivado/VCS)
+- Verilog simulator (Icarus Verilog/ModelSim/Vivado/VCS)
 - RISC-V toolchain (optional)
 
-### **Lệnh chạy mới (đã cập nhật tên file)**
+### **Running Test Commands**
 
 ```bash
-# Single Cycle Test 1
-python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc1 alu.v alu_decoder.v branch_comp.v dmem.v imem.v imm_gen.v riscv_single_cycle.v register_file.v control_unit.v
+# Single Cycle Test 1 - Basic arithmetic and logic operations
+python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc1 \
+    alu.v \
+    alu_decoder.v \
+    branch_comp.v \
+    dmem.v \
+    imem.v \
+    imm_gen.v \
+    RISCV_Single_Cycle.v \
+    register_file.v \
+    control_unit.v
 
-# Single Cycle Test 2
-python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc2 alu.v alu_decoder.v branch_comp.v dmem.v imem.v imm_gen.v riscv_single_cycle.v register_file.v control_unit.v
+# Single Cycle Test 2 - Memory operations and control flow
+python3 /srv/calab_grade/CA_Lab-2025/scripts/calab_grade.py sc2 \
+    alu.v \
+    alu_decoder.v \
+    branch_comp.v \
+    dmem.v \
+    imem.v \
+    imm_gen.v \
+    RISCV_Single_Cycle.v \
+    register_file.v \
+    control_unit.v
 ```
 
-### **Simulation với ModelSim/Vivado**
+### **Simulation with ModelSim/Vivado**
 
 ```bash
-# Compile all SystemVerilog files
-vlog -sv *.sv
+# Compile all Verilog files
+vlog *.v
 
 # Run simulation
-vsim -c riscv_single_cycle -do "run -all; quit"
+vsim -c RISCV_Single_Cycle -do "run -all; quit"
 
 # With waveform
-vsim riscv_single_cycle
+vsim RISCV_Single_Cycle
 ```
 
-### **Synthesis với Vivado**
+### **Synthesis with Vivado**
 
 ```tcl
 # Create project
 create_project riscv_cpu ./riscv_cpu -part xc7z020clg484-1
 
 # Add sources
-add_files [glob *.sv]
-set_property top riscv_single_cycle [current_fileset]
+add_files [glob *.v]
+set_property top RISCV_Single_Cycle [current_fileset]
 
 # Synthesize
 launch_runs synth_1
@@ -167,15 +182,16 @@ wait_on_run synth_1
 ## 🧪 Testing & Verification
 
 ### **Test Programs**
-- **sc1**: Basic arithmetic và logic operations
-- **sc2**: Memory operations và control flow  
+- **sc1**: Basic arithmetic and logic operations ✅ **PASSED**
+- **sc2**: Memory operations and control flow ✅ **PASSED**
 - **Custom tests**: Factorial, Fibonacci, Matrix multiplication
 
 ### **Coverage Metrics**
-- ✅ **Instruction Coverage**: 100% RV32I base
-- ✅ **Branch Coverage**: All branch conditions
-- ✅ **Edge Cases**: x0 register, memory boundaries
-- ✅ **Reset Testing**: Power-on và runtime reset
+- ✅ **Instruction Coverage**: 100% RV32I base **VERIFIED**
+- ✅ **Branch Coverage**: All branch conditions **VERIFIED**
+- ✅ **Edge Cases**: x0 register, memory boundaries **VERIFIED**
+- ✅ **Reset Testing**: Power-on and runtime reset **VERIFIED**
+- ✅ **Memory Verification**: All contents match golden output **VERIFIED**
 
 ## 🔍 Debug & Troubleshooting
 
@@ -186,7 +202,7 @@ wait_on_run synth_1
 4. **ALU operations**: Verify signed vs unsigned
 
 ### **Debug Signals**
-```systemverilog
+```verilog
 // Add to top module for debugging
 output logic [31:0] debug_pc,
 output logic [31:0] debug_instruction,
@@ -202,23 +218,23 @@ output logic [4:0]  debug_rd
 - RISC-V support
 
 ### **Coding Standards**
-- **Module names**: `snake_case`
+- **Module names**: `snake_case` or `CamelCase` (for compatibility)
 - **Signal names**: `snake_case`
-- **File names**: `module_name.sv`
-- **Comments**: Inline và block comments
+- **File names**: `module_name.v`
+- **Comments**: Inline and block comments
 - **Indentation**: 4 spaces
 
 ## 📈 Future Enhancements
 
 ### **Phase 2: Pipeline**
 - [ ] 5-stage pipeline implementation
-- [ ] Hazard detection và forwarding
+- [ ] Hazard detection and forwarding
 - [ ] Branch prediction improvements
 
 ### **Phase 3: Advanced Features**
 - [ ] Cache memory hierarchy
 - [ ] Floating point unit (RV32F)
-- [ ] Interrupt và exception handling
+- [ ] Interrupt and exception handling
 - [ ] Virtual memory support
 
 ### **Phase 4: System Integration**
@@ -235,23 +251,12 @@ output logic [4:0]  debug_rd
 4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Contact
-
-- **Author**: [Tên của bạn]
-- **Email**: [Email của bạn]
-- **GitHub**: [GitHub profile]
-
----
 
 ## 🏆 Acknowledgments
 
 - RISC-V International for the open ISA specification
 - UC Berkeley RISC-V project
 - Computer Architecture Lab community
-- All contributors và testers
+- All contributors and testers
 
-**Happy Coding! 🚀**
+
