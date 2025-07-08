@@ -1,3 +1,20 @@
+/**
+ * Control Unit - Generates control signals based on instruction opcode and function codes
+ *
+ * Inputs:
+ *   - opcode: 7-bit instruction opcode field
+ *   - funct3: 3-bit function code field
+ *   - funct7: 7-bit function code field (for R-type instructions)
+ *
+ * Outputs:
+ *   - alu_src: Selects the second input for ALU (0: register, 1: immediate)
+ *   - alu_op: Operation code for ALU
+ *   - branch: Indicates branch instruction
+ *   - mem_read: Enables reading from data memory
+ *   - mem_write: Enables writing to data memory
+ *   - mem_to_reg: Selects between ALU result (0) and memory data (1) for register write
+ *   - reg_write: Enables writing to register file
+ */
 module control_unit (
     input  logic [6:0] opcode,
     input  logic [2:0] funct3,
